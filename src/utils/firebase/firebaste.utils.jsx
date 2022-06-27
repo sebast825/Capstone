@@ -30,15 +30,15 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 //can be more than one, depending whta you need
-const provider = new GoogleAuthProvider();
+const googleProvider = new GoogleAuthProvider();
 
-provider.setCustomParameters({
+googleProvider.setCustomParameters({
    promt:'select_acount',
 })
 
 //is for the autentification of provider, only need one for the whole app
 export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth,provider);
+export const signInWithGooglePopup = () => signInWithPopup(auth,googleProvider);
 
 //conect to db
 export const db = getFirestore();
@@ -58,6 +58,7 @@ export const createUserDocumentFromAuth = async(userAuth) => {
       const {displayName, email} = userAuth;
       const createdAt = new Date();  
       try{
+         //creaite user
          await setDoc(userDocRef, {
             displayName,
             email,
