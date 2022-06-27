@@ -8,6 +8,14 @@ import {getAuth,
    signInWithPopup,
    GoogleAuthProvider
 } from 'firebase/auth';
+//to conect data base
+import {
+   getFirestore,
+   doc,
+   getDoc,
+   setDoc,
+   Firestore
+} from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -31,3 +39,32 @@ provider.setCustomParameters({
 //is for the autentification of provider, only need one for the whole app
 export const auth = getAuth();
 export const signInWithGooglePopup = () => signInWithPopup(auth,provider);
+
+//conect to db
+export const db = getFirestore();
+
+export const createUserDocumentFromAuth = async(userAuth) => {
+   //userAuth provides info from the user acount
+   const userDocRef = doc(db, 'users', userAuth.uid)
+   console.log(userDocRef)
+
+   const userSnaptshot = await getDoc(userDocRef);
+   //check if user exites in data base
+   console.log(userSnaptshot.exists())
+
+   //if user doesn't exist, create it
+
+   if(!userSnaptshot.exists()){
+      const {displayName, email} = userAuth;
+      const createdAt = new Date();  
+      try{
+         await setDoc(userDocRef, {
+            displayName,
+            email,
+            createdAt,
+         });
+      }catch(error){
+         console.log('error creating user',error.message)
+      }
+   }
+}
