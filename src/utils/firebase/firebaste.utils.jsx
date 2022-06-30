@@ -45,7 +45,10 @@ export const signInWithGooglePopup = () => signInWithPopup(auth,googleProvider);
 export const db = getFirestore();
 
    //create an autenticate user
-export const createUserDocumentFromAuth = async(userAuth) => {
+export const createUserDocumentFromAuth = async(
+   userAuth,
+   aditionalInformation = {}
+   ) => {
    if(!userAuth)return;
    //userAuth provides info from the user acount
    const userDocRef = doc(db, 'users', userAuth.uid)
@@ -66,6 +69,7 @@ export const createUserDocumentFromAuth = async(userAuth) => {
             displayName,
             email,
             createdAt,
+            ...aditionalInformation,
          });
       }catch(error){
          console.log('error creating user',error.message)

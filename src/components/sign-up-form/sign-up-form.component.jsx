@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import { createAuthUserWithEmailAndPassword } from '../../utils/firebase/firebaste.utils';
+import { createAuthUserWithEmailAndPassword,createUserDocumentFromAuth } from '../../utils/firebase/firebaste.utils';
 
 const defaultFormFields = {
    displayName:'',
@@ -16,19 +16,31 @@ const SignUpForm = () => {
    const {displayName,email,password,confirmPassword} = formFields;
    
      console.log(formFields)
+   
+   const resetFormFields = ()=>{
+      setFormFields(defaultFormFields)
+   }
 
    const handleSubmite = async (event) => {
       event.preventDefault();
-           
+         //verification
       if(password != confirmPassword){
          console.log(password,confirmPassword)
          alert('Passwords do not match');
          return;
-      }try{
-         const response = await createAuthUserWithEmailAndPassword(email,password);
-         console.log(response);
-      }catch{
-         console.error('error');
+      }
+      //createAuthUser
+      try{
+         const {user} = await createAuthUserWithEmailAndPassword(email,password);
+         await createUserDocumentFromAuth(user, {displayName})
+         resetFormFields()
+      }catch(error){
+         if(error.code === 'auth/email-already-in-use'){
+            alert('Cannot create user, email already in use')
+         }else{
+            console.error(error);
+
+         }
       }
 
    }
