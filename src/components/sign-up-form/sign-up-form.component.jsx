@@ -8,6 +8,7 @@ const defaultFormFields = {
    confirmPassword:'',
 }
 
+// each type of verification has to be added in firebase also (here email and password)
 const SignUpForm = () => {
   
    //[value, setValue]
@@ -29,10 +30,13 @@ const SignUpForm = () => {
          alert('Passwords do not match');
          return;
       }
-      //createAuthUser
+
       try{
+         //createAuthUser
          const {user} = await createAuthUserWithEmailAndPassword(email,password);
-         await createUserDocumentFromAuth(user, {displayName})
+         
+         //the 2nd parameter in case the displayName at google is null will take what client has put in the input
+         // await createUserDocumentFromAuth(user, {displayName})
          resetFormFields()
       }catch(error){
          if(error.code === 'auth/email-already-in-use'){
@@ -44,9 +48,11 @@ const SignUpForm = () => {
       }
 
    }
+   //updates the vaule of the object, each time is modify
    const handleChange = (event) => {
       const {name,value} = event.target;
       console.log(formFields)
+      //the tre dots, necesary to only modify the parammeter passed instead of the whole object
       setFormFields({ ...formFields, [name]:value})
    }
    return(
