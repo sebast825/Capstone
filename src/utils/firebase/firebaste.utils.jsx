@@ -1,4 +1,4 @@
-// Import the functions you need from the SDKs you need
+//create an app instance of an object, what conect the app with what we have online
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -19,6 +19,7 @@ import {
 } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
+//this is the instance of firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBM4hK8a-l6NAepqCCfshtqjmGo0gSrgwU",
   authDomain: "clapstone-24ba3.firebaseapp.com",
@@ -28,16 +29,22 @@ const firebaseConfig = {
   appId: "1:1031320218180:web:27abe49952b8d9d6faaa11"
 };
 
+//initializate app with our firebase config :) 
 const firebaseApp = initializeApp(firebaseConfig);
 
+//before use the autentication we need to create a provbider
+//create an provider instance
+//provider is the people that will register in the app
 //can be more than one, depending whta you need
 const googleProvider = new GoogleAuthProvider();
 
+//this is particular configuration google need
 googleProvider.setCustomParameters({
    promt:'select_acount',
 })
 
 //is for the autentification of provider, only need one for the whole app
+//verify all the providers
 export const auth = getAuth();
 export const signInWithGooglePopup = () => signInWithPopup(auth,googleProvider);
 
@@ -77,6 +84,7 @@ export const createUserDocumentFromAuth = async(
    }
 }
 
+//to create an acount with the email and password
 export const createAuthUserWithEmailAndPassword = async (email,password) =>{
    if(!email || !password)return;
 

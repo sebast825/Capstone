@@ -3,7 +3,7 @@ const FormInput = ({label, ...otherProps}) => {
    return(
       <div className='group'>
       <input className='form-input' {...otherProps} />
-
+      {/* don't understand why put the label in () works fine with only the label tag */}
       {
          label && (
             <label 
