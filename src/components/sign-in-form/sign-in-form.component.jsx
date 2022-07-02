@@ -1,54 +1,41 @@
 import {useState} from 'react';
-import { createAuthUserWithEmailAndPassword,createUserDocumentFromAuth } from '../../utils/firebase/firebaste.utils';
+import { signInAuthUserWithEmailAndPassword,createUserDocumentFromAuth,signInWithGooglePopup } from '../../utils/firebase/firebaste.utils';
 import FormInput from '../from-input/form-input.component';
 import Button from '../button/button.component.jsx';
-import './sign-up-form.styles.scss'
+import './sign-in-form.styles.scss'
+
 
 const defaultFormFields = {
-   displayName:'',
    email:'',
    password:'',
-   confirmPassword:'',
 }
 
 // each type of verification has to be added in firebase also (here email and password)
-const SignUpForm = () => {
+const SignInForm = () => {
   
    //[value, setValue]
    //the parameter inside useState is the default inside setFormFields, the object
    const [formFields, setFormFields] = useState(defaultFormFields);
-   const {displayName,email,password,confirmPassword} = formFields;
-   
-     console.log(formFields)
+   const {email,password} = formFields;
    
    const resetFormFields = ()=>{
       setFormFields(defaultFormFields)
    }
 
+   const signInWithGoogle = async () => {
+      const {user} = await signInWithGooglePopup();
+     createUserDocumentFromAuth(user);
+   }
+
    const handleSubmite = async (event) => {
-      console.log(event)
       event.preventDefault();
          //verification
-      if(password !== confirmPassword){
-         console.log(password,confirmPassword)
-         alert('Passwords do not match');
-         return;
-      }
-
+     
       try{
-         //createAuthUser (Provider)
-         const {user} = await createAuthUserWithEmailAndPassword(email,password);
-         //the 2nd parameter in case the displayName at google is null will take what client has put in the input
-         // saves is in the firestore database
-         await createUserDocumentFromAuth(user, {displayName})
-         resetFormFields()
+       const response = await signInAuthUserWithEmailAndPassword(email,password);
+       console.log(response);
       }catch(error){
-         if(error.code === 'auth/email-already-in-use'){
-            alert('Cannot create user, email already in use')
-         }else{
-            console.error(error);
-
-         }
+        console.log(error)
       }
 
    }
@@ -61,24 +48,26 @@ const SignUpForm = () => {
    }
    return(
       <div className='sign-up-container'>
-         <h2>Don't have an account?</h2>
-         <span>Sign up with your email and password</span>
+         <h2>Already have an account?</h2>
+         <span>Sign in with your email and password</span>
          <form onSubmit={handleSubmite}>
                       
             {/* value={displayName} -- The changes are circular, this means the value from the state is the shown in the input, but when the user type those values the handleChange push in in our formFields and then our state will aslo update the visual*/}
-            <FormInput label="Display Name" type="text" required onChange={handleChange} name="displayName" value={displayName}/>
             
             <FormInput label="Email"type="email" required onChange={handleChange} name="email" value={email}/>
 
             <FormInput label="Password"type="password" required onChange={handleChange} name="password" value={password}/>
 
-            <FormInput label="Confirm Password" type="password" required onChange={handleChange} name="confirmPassword" value={confirmPassword}/>
-
-            <Button type="submit">Sign Up</Button>
+         <div className='buttons-container'>
+            <Button  type="submit">Sign In</Button>
+            <Button onClick={signInWithGoogle} buttonType="google" type="text">Sign In With Google</Button>
+         </div>
+       
+            
 
          </form>
       </div>
    )
 }
 
-export default SignUpForm;
+export default SignInForm;

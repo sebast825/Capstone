@@ -8,6 +8,7 @@ import {getAuth,
    signInWithPopup,
    GoogleAuthProvider,
    createUserWithEmailAndPassword,
+   signInWithEmailAndPassword,
 } from 'firebase/auth';
 //to conect data base
 import {
@@ -91,3 +92,11 @@ export const createAuthUserWithEmailAndPassword = async (email,password) =>{
 // will give us back an auth object
    return await createUserWithEmailAndPassword (auth,email,password)
 }
+
+export const signInAuthUserWithEmailAndPassword = async (email,password) =>{
+   if(!email || !password)return;
+
+// will give us back an auth object
+   return await signInWithEmailAndPassword (auth,email,password);
+}
+
