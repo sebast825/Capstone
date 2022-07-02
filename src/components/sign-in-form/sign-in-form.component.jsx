@@ -35,9 +35,17 @@ const SignInForm = () => {
        const response = await signInAuthUserWithEmailAndPassword(email,password);
        console.log(response);
       }catch(error){
-        console.log(error)
+         switch(error.code){
+            case 'auth/user-not-found':
+               alert("User doesn't exist");
+               break;
+            case 'auth/wrong-password':
+               alert("Wrong password");
+               break;
+            default:
+               console.log(error)   
+         } 
       }
-
    }
    //updates the vaule of the object, each time is modify
    const handleChange = (event) => {
@@ -60,7 +68,8 @@ const SignInForm = () => {
 
          <div className='buttons-container'>
             <Button  type="submit">Sign In</Button>
-            <Button onClick={signInWithGoogle} buttonType="google" type="text">Sign In With Google</Button>
+            {/* added type button, if not the error we do with the switch will appear, because by default all buttons are type="submit" */}
+            <Button onClick={signInWithGoogle} buttonType="google" type="button">Sign In With Google</Button>
          </div>
        
             

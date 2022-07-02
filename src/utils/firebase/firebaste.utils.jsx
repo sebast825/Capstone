@@ -33,7 +33,7 @@ const firebaseConfig = {
 //initializate app with our firebase config :) 
 const firebaseApp = initializeApp(firebaseConfig);
 
-//before use the autentication we need to create a provbider
+//before use the autentication we need to create a provider
 //create an provider instance
 //provider is the people that will register in the app
 //can be more than one, depending whta you need
