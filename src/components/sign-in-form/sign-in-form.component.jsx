@@ -1,8 +1,15 @@
-import {useState} from 'react';
-import { signInAuthUserWithEmailAndPassword,createUserDocumentFromAuth,signInWithGooglePopup } from '../../utils/firebase/firebaste.utils';
+import {useState, useContext } from 'react';
+import {
+   signInAuthUserWithEmailAndPassword,
+   createUserDocumentFromAuth,
+   signInWithGooglePopup } 
+   from '../../utils/firebase/firebaste.utils';
+
 import FormInput from '../from-input/form-input.component';
 import Button from '../button/button.component.jsx';
 import './sign-in-form.styles.scss'
+//give us back any content is passed in for this value
+import { UserContext } from '../../contexts/user.contexts';
 
 
 const defaultFormFields = {
@@ -17,7 +24,10 @@ const SignInForm = () => {
    //the parameter inside useState is the default inside setFormFields, the object
    const [formFields, setFormFields] = useState(defaultFormFields);
    const {email,password} = formFields;
-   
+
+   //this return the value so can be acces from all the aplication
+   const {setCurrentUser} = useContext(UserContext);
+
    const resetFormFields = ()=>{
       setFormFields(defaultFormFields)
    }
@@ -32,8 +42,10 @@ const SignInForm = () => {
          //verification
      
       try{
-       const response = await signInAuthUserWithEmailAndPassword(email,password);
-       console.log(response);
+       const user  = await signInAuthUserWithEmailAndPassword(email,password);
+       resetFormFields()
+       //this is to have acces globaly to the user
+       setCurrentUser(user)
       }catch(error){
          switch(error.code){
             case 'auth/user-not-found':
@@ -69,7 +81,7 @@ const SignInForm = () => {
          <div className='buttons-container'>
             <Button  type="submit">Sign In</Button>
             {/* added type button, if not the error we do with the switch will appear, because by default all buttons are type="submit" */}
-            <Button onClick={signInWithGoogle} buttonType="google" type="button">Sign In With Google</Button>
+            <Button onClick={signInWithGoogle} buttonType="google" type="button">Google Sign In </Button>
          </div>
        
             
