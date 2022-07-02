@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import { createAuthUserWithEmailAndPassword,createUserDocumentFromAuth } from '../../utils/firebase/firebaste.utils';
-
+import FormInput from '../from-input/form-input.component';
 const defaultFormFields = {
    displayName:'',
    email:'',
@@ -25,18 +25,18 @@ const SignUpForm = () => {
    const handleSubmite = async (event) => {
       event.preventDefault();
          //verification
-      if(password != confirmPassword){
+      if(password !== confirmPassword){
          console.log(password,confirmPassword)
          alert('Passwords do not match');
          return;
       }
 
       try{
-         //createAuthUser
+         //createAuthUser (Provider)
          const {user} = await createAuthUserWithEmailAndPassword(email,password);
-         
          //the 2nd parameter in case the displayName at google is null will take what client has put in the input
-         // await createUserDocumentFromAuth(user, {displayName})
+         // saves is in the firestore database
+         await createUserDocumentFromAuth(user, {displayName})
          resetFormFields()
       }catch(error){
          if(error.code === 'auth/email-already-in-use'){
@@ -59,19 +59,15 @@ const SignUpForm = () => {
       <div>
 
          <form onSubmit={handleSubmite}>
-            <label>Display Name</label>
-            
+                      
             {/* value={displayName} -- The changes are circular, this means the value from the state is the shown in the input, but when the user type those values the handleChange push in in our formFields and then our state will aslo update the visual*/}
-            <input type="text" required onChange={handleChange} name="displayName" value={displayName}/>
+            <FormInput label="Display Name" type="text" required onChange={handleChange} name="displayName" value={displayName}/>
+            
+            <FormInput label="Email"type="email" required onChange={handleChange} name="email" value={email}/>
 
-            <label>Email</label>
-            <input type="email" required onChange={handleChange} name="email" value={email}/>
+            <FormInput label="Password"type="password" required onChange={handleChange} name="password" value={password}/>
 
-            <label>Password</label>
-            <input type="password" required onChange={handleChange} name="password" value={password}/>
-
-            <label>Confirm Password</label>
-            <input type="password" required onChange={handleChange} name="confirmPassword" value={confirmPassword}/>
+            <FormInput label="Confirm Password" type="password" required onChange={handleChange} name="confirmPassword" value={confirmPassword}/>
 
             <button type="submit">Sign Up</button>
 

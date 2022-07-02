@@ -1,4 +1,4 @@
-starts video 80
+video 100 start
 
 # Getting Started with Create React App
 
