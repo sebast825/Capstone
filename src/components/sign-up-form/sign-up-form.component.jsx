@@ -1,6 +1,8 @@
 import {useState} from 'react';
 import { createAuthUserWithEmailAndPassword,createUserDocumentFromAuth } from '../../utils/firebase/firebaste.utils';
 import FormInput from '../from-input/form-input.component';
+import Button from '../button/button.component.jsx';
+
 const defaultFormFields = {
    displayName:'',
    email:'',
@@ -69,7 +71,7 @@ const SignUpForm = () => {
 
             <FormInput label="Confirm Password" type="password" required onChange={handleChange} name="confirmPassword" value={confirmPassword}/>
 
-            <button type="submit">Sign Up</button>
+            <Button buttonType="inverted" type="submit">Sign Up</Button>
 
          </form>
       </div>
