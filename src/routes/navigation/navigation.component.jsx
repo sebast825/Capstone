@@ -8,10 +8,18 @@ import {ReactComponent as CrwnLogo} from '../../assets/crown.svg'
 import './navigation.styles.scss';
 
 import { UserContext } from "../../contexts/user.contexts";
+import { signUserOut } from "../../utils/firebase/firebaste.utils";
 
 const Navigation = () => {
-  const { currentUser } = useContext(UserContext)
+  const { currentUser,setCurrentUser } = useContext(UserContext)
   console.log(currentUser)
+
+  const signUserHandler = async () => {
+    //firebase method to sign out
+    await signUserOut();
+    //this is to update the page
+    setCurrentUser(null);
+  }
    return (
      <Fragment>
        <div className="navigation">
@@ -22,9 +30,19 @@ const Navigation = () => {
             <Link className="nav-link" to='/shop'>
             <div>SHOP</div>
             </Link>
-            <Link className="nav-link" to='/auth'>
+            {
+              //if currentUser exist chose one
+              currentUser ? (
+                <span className="nav-link" onClick={signUserHandler}>
+            Sign Out
+            </span>
+              ) : (
+                <Link className="nav-link" to='/auth'>
             <div>Sign In</div>
             </Link>
+              )
+            }
+            
          </div>
          
        </div>

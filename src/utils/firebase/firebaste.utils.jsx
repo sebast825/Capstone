@@ -9,6 +9,7 @@ import {getAuth,
    GoogleAuthProvider,
    createUserWithEmailAndPassword,
    signInWithEmailAndPassword,
+   signOut,
 } from 'firebase/auth';
 //to conect data base
 import {
@@ -57,6 +58,7 @@ export const createUserDocumentFromAuth = async(
    userAuth,
    aditionalInformation = {}
    ) => {
+      console.log(userAuth)
    if(!userAuth)return;
    //userAuth provides info from the user acount
    const userDocRef = doc(db, 'users', userAuth.uid)
@@ -100,3 +102,4 @@ export const signInAuthUserWithEmailAndPassword = async (email,password) =>{
    return await signInWithEmailAndPassword (auth,email,password);
 }
 
+export const signUserOut = async () =>{ signOut(auth)};
