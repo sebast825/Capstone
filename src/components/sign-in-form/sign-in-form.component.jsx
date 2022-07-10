@@ -1,4 +1,4 @@
-import {useState, useContext } from 'react';
+import {useState } from 'react';
 import {
    signInAuthUserWithEmailAndPassword,
    createUserDocumentFromAuth,
@@ -8,8 +8,7 @@ import {
 import FormInput from '../from-input/form-input.component';
 import Button from '../button/button.component.jsx';
 import './sign-in-form.styles.scss'
-//give us back any content is passed in for this value
-import { UserContext } from '../../contexts/user.contexts';
+
 
 
 const defaultFormFields = {
@@ -25,8 +24,7 @@ const SignInForm = () => {
    const [formFields, setFormFields] = useState(defaultFormFields);
    const {email,password} = formFields;
 
-   //this return the value so can be acces from all the aplication
-   const {setCurrentUser} = useContext(UserContext);
+
 
    const resetFormFields = ()=>{
       setFormFields(defaultFormFields)
@@ -35,7 +33,6 @@ const SignInForm = () => {
    const signInWithGoogle = async () => {
       const {user} = await signInWithGooglePopup();
      createUserDocumentFromAuth(user);
-     setCurrentUser(user)
    }
 
    const handleSubmite = async (event) => {
@@ -45,8 +42,6 @@ const SignInForm = () => {
       try{
        const user  = await signInAuthUserWithEmailAndPassword(email,password);
        resetFormFields()
-       //this is to have acces globaly to the user
-       setCurrentUser(user)
       }catch(error){
          switch(error.code){
             case 'auth/user-not-found':

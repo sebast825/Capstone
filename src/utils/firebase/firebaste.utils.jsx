@@ -10,6 +10,7 @@ import {getAuth,
    createUserWithEmailAndPassword,
    signInWithEmailAndPassword,
    signOut,
+   onAuthStateChanged
 } from 'firebase/auth';
 //to conect data base
 import {
@@ -103,3 +104,9 @@ export const signInAuthUserWithEmailAndPassword = async (email,password) =>{
 }
 
 export const signUserOut = async () =>{ signOut(auth)};
+
+  //tiger when the state of the user changes, if log in or log out
+   //instead of useContext en all places we can handle it from only one place
+export const onAuthStateChangedListener = (callback) => {
+   onAuthStateChanged(auth,callback);
+}

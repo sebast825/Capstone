@@ -1,9 +1,9 @@
-import {useState, useContext} from 'react';
+import {useState} from 'react';
 import { createAuthUserWithEmailAndPassword,createUserDocumentFromAuth } from '../../utils/firebase/firebaste.utils';
 import FormInput from '../from-input/form-input.component';
 import Button from '../button/button.component.jsx';
 import './sign-up-form.styles.scss'
-import { UserContext } from '../../contexts/user.contexts';
+
 
 const defaultFormFields = {
    displayName:'',
@@ -21,8 +21,7 @@ const SignUpForm = () => {
    const {displayName,email,password,confirmPassword} = formFields;
    
      console.log(formFields)
-     //to be available globaly
-   const { setCurrentUser } = useContext(UserContext)
+
    
    const resetFormFields = ()=>{
       setFormFields(defaultFormFields)
@@ -45,9 +44,6 @@ const SignUpForm = () => {
          // saves is in the firestore database
          await createUserDocumentFromAuth(user, {displayName})
          resetFormFields()
-         //is for the userContext
-         //gives the variable to be available globaly
-         setCurrentUser(user)
       }catch(error){
          if(error.code === 'auth/email-already-in-use'){
             alert('Cannot create user, email already in use')
