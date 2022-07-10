@@ -35,7 +35,7 @@ const SignInForm = () => {
    const signInWithGoogle = async () => {
       const {user} = await signInWithGooglePopup();
      createUserDocumentFromAuth(user);
-     setCurrentUser(user)
+  
    }
 
    const handleSubmite = async (event) => {
@@ -45,8 +45,7 @@ const SignInForm = () => {
       try{
        const user  = await signInAuthUserWithEmailAndPassword(email,password);
        resetFormFields()
-       //this is to have acces globaly to the user
-       setCurrentUser(user)
+     
       }catch(error){
          switch(error.code){
             case 'auth/user-not-found':
