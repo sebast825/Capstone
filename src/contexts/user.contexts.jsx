@@ -8,6 +8,7 @@ export const UserContext = createContext ({
 
 })
 
+//asd
 //allows any of his childs components acces the useState
 export const UserProvider = ({children}) => {
    const [currentUser, setCurrentUser] = useState(null);
