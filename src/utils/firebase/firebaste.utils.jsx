@@ -10,6 +10,7 @@ import {getAuth,
    createUserWithEmailAndPassword,
    signInWithEmailAndPassword,
    signOut,
+   onAuthStateChanged,
 } from 'firebase/auth';
 //to conect data base
 import {
@@ -103,3 +104,7 @@ export const signInAuthUserWithEmailAndPassword = async (email,password) =>{
 }
 
 export const signUserOut = async () =>{ signOut(auth)};
+
+export const onAuthStateChangedListener = (callback) =>{
+   onAuthStateChanged(auth,callback);
+}
