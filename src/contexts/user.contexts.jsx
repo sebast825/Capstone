@@ -15,9 +15,10 @@ export const UserProvider = ({children}) => {
    const [currentUser, setCurrentUser] = useState(null);
    const value = {currentUser,setCurrentUser};
 
-   signUserOut()
+   //will manage everithing the log in log out from here instead of createContext
    useEffect(()=>{
       const unsubscribe = onAuthStateChangedListener((user)=>{
+         setCurrentUser(user)
          console.log(user)
       })
       return unsubscribe;

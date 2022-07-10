@@ -103,7 +103,7 @@ export const signInAuthUserWithEmailAndPassword = async (email,password) =>{
    return await signInWithEmailAndPassword (auth,email,password);
 }
 
-export const signUserOut = async () =>{ signOut(auth)};
+export const signUserOut = async () =>{ signOut(auth);console.log('ased')};
 
 export const onAuthStateChangedListener = (callback) =>{
    onAuthStateChanged(auth,callback);

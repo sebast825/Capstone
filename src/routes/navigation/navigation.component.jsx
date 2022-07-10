@@ -14,12 +14,7 @@ const Navigation = () => {
   const { currentUser,setCurrentUser } = useContext(UserContext)
   console.log(currentUser)
 
-  const signUserHandler = async () => {
-    //firebase method to sign out
-    await signUserOut();
-    //this is to update the page
-    setCurrentUser(null);
-  }
+
    return (
      <Fragment>
        <div className="navigation">
@@ -33,7 +28,7 @@ const Navigation = () => {
             {
               //if currentUser exist chose one
               currentUser ? (
-                <span className="nav-link" onClick={signUserHandler}>
+                <span className="nav-link" onClick={signUserOut}>
             Sign Out
             </span>
               ) : (
