@@ -7,7 +7,9 @@ import { useContext } from 'react';
 
 const CartIcon = () =>{
 
+
    const {isCartOpen,setIsCartOpen} = useContext(CartContext);
+   //return the oposit actual value - true/false
    const toggleIsCartOpen = () => setIsCartOpen(!isCartOpen)
    return(
       <div className='cart-icon-container'onClick={toggleIsCartOpen}>
