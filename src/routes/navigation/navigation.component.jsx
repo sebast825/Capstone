@@ -8,6 +8,8 @@ import {ReactComponent as CrwnLogo} from '../../assets/crown.svg'
 import './navigation.styles.scss';
 
 import { UserContext } from "../../contexts/user.contexts";
+import { CartContext } from "../../contexts/cart.contexts";
+
 import { signUserOut } from "../../utils/firebase/firebaste.utils";
 
 import CartIcon from "../../components/cart-icon/cart-icon.component";
@@ -15,8 +17,7 @@ import CartDropdown from "../../components/cart-dropdown/cart-dropwdown.componen
 
 const Navigation = () => {
   const { currentUser } = useContext(UserContext)
-  console.log(currentUser)
-
+  const {isCartOpen} = useContext(CartContext)
 
    return (
      <Fragment>
@@ -43,7 +44,8 @@ const Navigation = () => {
             <CartIcon/>
             
          </div>
-         <CartDropdown/>
+         {/* if isCartOpen return true will show the CartDropDown */}
+            {isCartOpen && <CartDropdown/>}
        </div>
        <Outlet/>
      </Fragment>

@@ -5,6 +5,7 @@ import './shop.styles.scss'
 
 
 const Shop = () =>{
+   //brings each element from shop
    const {products} = useContext(ProductsContext);
    return(
       <div className='products-container'>
