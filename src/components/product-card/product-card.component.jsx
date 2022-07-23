@@ -5,13 +5,12 @@ import { useContext } from 'react';
 
 const ProductCard = ({product}) => {
 
+   const {name,price,imageUrl,quantity} = product;
+   const {addItemToCart} = useContext(CartContext)
 
-   const saveData = (e) => {
-      console.log(name,price,imageUrl)
-   }
+  const addProductToCart = () => addItemToCart(product)
 
 
-    const {name,price,imageUrl} = product;
    return(
       <div className='product-card-container'>
          <img src={imageUrl} alt={name} />
@@ -19,7 +18,7 @@ const ProductCard = ({product}) => {
             <span className="name">{name}</span>
             <span className="price">{price} </span>
          </div>
-         <Button buttonType='inverted' onClick={saveData}>Add to Card</Button>
+         <Button buttonType='inverted' onClick={addProductToCart}>Add to Card</Button>
       </div>
    )
 }
